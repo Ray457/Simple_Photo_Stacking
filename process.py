@@ -93,13 +93,7 @@ def main(num_images):
     
     t_mid = time.time()
     print("Preprocessing took {:.2f} seconds.".format(t_mid-t_start))
-    for j in range(len(images[0])):
-        for i in range(len(images[0][0])):
-           pix_vals = []
-            for k in range(num_images):
-                pix_vals.append(images[k][j][i])
-            im[j][i] = int(np.mean(pix_vals))
-            #stddev += [np.std(pix_vals)] 
+    im = np.mean(images,0)
     cv2.imwrite('out-mean.jpg',im)
     t_end = time.time()
     print("Pixel-wise mean of {} images took {:.2f} seconds.".format(num_images, t_end-t_mid))
