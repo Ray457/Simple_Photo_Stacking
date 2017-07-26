@@ -4,6 +4,9 @@ import numpy as np
 import time
 
 
+AVG_MEAN = 0
+AVG_MEDIAN = 1
+
 x = []
 y = []
 
@@ -92,11 +95,11 @@ def main(num_images):
     images = align_images(images, kps)
     
     t_mid = time.time()
-    print("Preprocessing took {:.2f} seconds.".format(t_mid-t_start))
+    print("Preprocessing took {:.3f} seconds.".format(t_mid-t_start))
     im = np.mean(images,0)
     cv2.imwrite('out-mean.jpg',im)
     t_end = time.time()
-    print("Pixel-wise mean of {} images took {:.2f} seconds.".format(num_images, t_end-t_mid))
+    print("Pixel-wise mean of {} images took {:.3f} seconds.".format(num_images, t_end-t_mid))
 
     #print("Average standard deviation between the pixel values: {}".format(np.mean(stddev)))
 
@@ -120,20 +123,14 @@ def auto_process(num_images, align_tolerance=60):  # tolerance in alignment, uni
 # align
     images = align_images(images, kps)
     t_mid = time.time()
-    print("Preprocessing took {0:.2f} seconds.".format(t_mid-t_start))
+    print("Preprocessing took {:.3f} seconds.".format(t_mid-t_start))
 # process
-    imout = np.empty(images[0].shape, dtype='int8')  # initialize an empty output array
-    for j in range(len(imout)):
-        for i in range(len(imout[0])):
-            pix_vals = []
-            for k in range(num_images):
-                pix_vals.append(images[k][j][i])
-            imout[j][i] = int(np.mean(pix_vals))
-    print("Pixel-wise mean over {} images took {:.2f} seconds.".format(num_images, time.time()-t_mid))
+    imout = np.mean(images, 0)
+    print("Pixel-wise mean over {} images took {:.3f} seconds.".format(num_images, time.time()-t_mid))
 # output
     cv2.imwrite('out-mean.jpg', imout)
 
 
 if __name__ == '__main__':
-    main(15)
-    #auto_process(15)
+    #main(15)
+    auto_process(15)
