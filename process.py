@@ -125,10 +125,10 @@ def auto_process(num_images, align_tolerance=60):  # tolerance in alignment, uni
     t_mid = time.time()
     print("Preprocessing took {:.3f} seconds.".format(t_mid-t_start))
 # process
-    imout = np.mean(images, 0)
-    print("Pixel-wise mean over {} images took {:.3f} seconds.".format(num_images, time.time()-t_mid))
+    imout = np.median(images, 0)
+    print("Pixel-wise median over {} images took {:.3f} seconds.".format(num_images, time.time()-t_mid))
 # output
-    cv2.imwrite('out-mean.jpg', imout)
+    cv2.imwrite('out-median.jpg', imout)
 
 
 if __name__ == '__main__':
